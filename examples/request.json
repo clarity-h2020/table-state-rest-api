@@ -1,0 +1,56 @@
+{
+    "type": "eu-gl:hazard-characterization",
+    "bbox": [4466000.0, 2130000.0, 4491000.0, 2155000.0],
+    "hazards": [{
+        "hazard": "Heat Wave Duration",
+        "baseline_thresholds": [
+            {
+                "name": "low",
+                "lower": "13.47"
+            },
+            {
+                "name": "medium",
+                "lower": "13.47",
+                "upper": "15.90"
+            },
+            {
+                "name": "high",
+                "upper": "15.90"
+            }
+        ],
+        "future_thresholds": [
+            {
+                "name": "low",
+                "lower": "9.13"
+            },
+            {
+                "name": "medium",
+                "lower": "9.13",
+                "upper": "16.6"
+            },
+            {
+                "name": "high",
+                "upper": "16.6"
+            }
+        ],
+        "layers": [{
+            "time-period": "2011-2040",
+            "layer_ids": {
+                "baseline_layer_id": "clarity:Tx75p_consecutive_max_EUR-11_ICHEC-EC-EARTH_historical_r12i1p1_SMHI-RCA4_v1_day_19710101-20001231_netcdf3",
+                "rcp26_layer_id": "clarity:Tx75p_consecutive_max_EUR-11_ICHEC-EC-EARTH_rcp26_r12i1p1_SMHI-RCA4_v1_day_20110101-20401231_netcdf3",
+                "rcp45_layer_id": "clarity:Tx75p_consecutive_max_EUR-11_ICHEC-EC-EARTH_rcp45_r12i1p1_SMHI-RCA4_v1_day_20110101-20401231_netcdf3",
+                "rcp85_layer_id": "clarity:Tx75p_consecutive_max_EUR-11_ICHEC-EC-EARTH_rcp85_r12i1p1_SMHI-RCA4_v1_day_20110101-20401231_netcdf3"
+                }
+            },
+            {
+            "time-period": "2041-2070",
+            "layer_ids": {
+                "baseline_layer_id": "clarity:Tx75p_consecutive_max_EUR-11_ICHEC-EC-EARTH_historical_r12i1p1_SMHI-RCA4_v1_day_19710101-20001231_netcdf3",
+                "rcp26_layer_id": "clarity:Tx75p_consecutive_max_EUR-11_ICHEC-EC-EARTH_rcp26_r12i1p1_SMHI-RCA4_v1_day_20410101-20701231_netcdf3",
+                "rcp45_layer_id": "clarity:Tx75p_consecutive_max_EUR-11_ICHEC-EC-EARTH_rcp45_r12i1p1_SMHI-RCA4_v1_day_20410101-20701231_netcdf3",
+                "rcp85_layer_id": "clarity:Tx75p_consecutive_max_EUR-11_ICHEC-EC-EARTH_rcp85_r12i1p1_SMHI-RCA4_v1_day_20410101-20701231_netcdf3"
+                }
+            }
+        ]
+    }]
+}
