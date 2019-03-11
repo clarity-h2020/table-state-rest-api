@@ -1,0 +1,67 @@
+{
+    "data": [
+        {
+            "hazard": "HW,PF,FL",
+            "elementAtRisk": "Population",
+            "vulnerabilityClasses": "Age group 0-14",
+            "values": "2",
+            "unit": "pop/km2"
+        },
+        {
+            "hazard": "HW,PF,FL",
+            "elementAtRisk": "Population",
+            "vulnerabilityClasses": "Age group 15-64",
+            "values": "2.45",
+            "unit": "pop/km2"
+        },
+        {
+            "hazard": "HW,PF,FL",
+            "elementAtRisk": "Population",
+            "vulnerabilityClasses": ">65",
+            "values": "3",
+            "unit": "pop/km2"
+        },
+        {
+            "hazard": "PF,FL",
+            "elementAtRisk": "Buildings",
+            "vulnerabilityClasses": "Continuous Residential (S.L. > 80%)",
+            "values": "2.3",
+            "unit": "m3/m2"
+        },
+        {
+            "hazard": "PF,FL",
+            "elementAtRisk": "Buildings",
+            "vulnerabilityClasses": "Med-Hi Density Discontinuous Res. (30% < S.L. < 80%)",
+            "values": "2.56",
+            "unit": "m3/m2"
+        },
+        {
+            "hazard": "PF,FL",
+            "elementAtRisk": "Buildings",
+            "vulnerabilityClasses": "Low Density Discontinuous Res. (S.L. < 30%)",
+            "values": "1.3",
+            "unit": "m3/m2"
+        },
+        {
+            "hazard": "PF,FL",
+            "elementAtRisk": "Buildings",
+            "vulnerabilityClasses": "Non Residential",
+            "values": "1.56",
+            "unit": "m3/m2"
+        },
+        {
+            "hazard": "PF,FL",
+            "elementAtRisk": "Infrastructure",
+            "vulnerabilityClasses": "Roads",
+            "values": "2.34",
+            "unit": "ml"
+        },
+        {
+            "hazard": "PF,FL",
+            "elementAtRisk": "Infrastructure",
+            "vulnerabilityClasses": "Railways",
+            "values": "3.98",
+            "unit": "ml"
+        }
+    ]
+}

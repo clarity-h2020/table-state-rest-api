@@ -1,0 +1,27 @@
+{
+    "type": "eu-gl:exposure-evaluation",
+    "bbox": [4466000.0, 2130000.0, 4491000.0, 2155000.0],
+    "data": [
+        {
+            "hazard": "HW,PF,FL",
+            "elementAtRisk": "Population",
+            "vulnerabilityClasses": "Age group 0-14",
+            "layer": "Exposure:Population_men15_naples",
+            "unit": "pop/km2"
+        },
+        {
+            "hazard": "HW,PF,FL",
+            "elementAtRisk": "Population",
+            "vulnerabilityClasses": "Age group 15-64",
+            "layer": "Exposure:Population_15to65_naples",
+            "unit": "pop/km2"
+        },
+        {
+            "hazard": "HW,PF,FL",
+            "elementAtRisk": "Population",
+            "vulnerabilityClasses": ">65",
+            "layer": "Exposure:Population_mayor65_naples",
+            "unit": "pop/km2"
+        }
+    ]
+}
