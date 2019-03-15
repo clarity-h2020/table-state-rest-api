@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask import make_response
+from flask_cors import CORS
 
 #from owslib.wcs import WebCoverageService
 
@@ -7,6 +8,7 @@ from helpers import characterization
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
+CORS(app)
 
 @app.route('/request_hazard', methods=['POST'])
 def process_hc_request():
