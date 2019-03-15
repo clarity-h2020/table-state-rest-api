@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask import make_response
 
-from owslib.wcs import WebCoverageService
+#from owslib.wcs import WebCoverageService
 
 from helpers import characterization
 
