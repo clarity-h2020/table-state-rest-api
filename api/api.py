@@ -8,7 +8,7 @@ from helpers import characterization
 app = Flask(__name__)
 app.config["DEBUG"] = True
 
-@app.route('/api/request_hazard', methods=['POST'])
+@app.route('/request_hazard', methods=['POST'])
 def process_hc_request():
     if not request.json:
         abort(400)
@@ -20,13 +20,16 @@ def process_hc_request():
     # return make_response(jsonify({'result': 'Received'}), 201)
     return make_response(jsonify(output), 201)
 
-@app.route('/api/request_exposure', methods=['POST'])
+@app.route('/request_exposure', methods=['POST'])
 def process_ee_request():
     if not request.json:
         abort(400)
     print(request.json)
     if request.json["type"] == 'eu-gl:exposure-evaluation':
-        output = characterization.get_exposure_characterization(request.json)
+        try:
+            output = characterization.get_exposure_characterization(request.json)
+        except Exception as e:
+           make_response(jsonify(e), 404)
     else:
         return make_response(jsonify({'result': 'Wrong type request'}), 201)    
     # return make_response(jsonify({'result': 'Received'}), 201)
@@ -36,4 +39,5 @@ def process_ee_request():
 def home():
     return "<h1>TABLE API</h1><p>This site is a prototype API for returning data info.</p>"
 
-app.run()
+if __name__ == '__main__':
+    app.run()
