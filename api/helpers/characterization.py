@@ -44,10 +44,13 @@ def get_hazard_characterization(request):
             rcp45_layer = layer_set['layer_ids']['rcp45_layer_id']
             rcp85_layer = layer_set['layer_ids']['rcp85_layer_id']
             
-            baseline_median = get_geoserver_data(request['bbox'], baseline_layer)
-            rcp26_median = get_geoserver_data(request['bbox'], rcp26_layer)
-            rcp45_median = get_geoserver_data(request['bbox'], rcp45_layer)
-            rcp85_median = get_geoserver_data(request['bbox'], rcp85_layer)
+            epsg = request['epsg'].upper()
+            bbox = request['bbox']
+
+            baseline_median = get_geoserver_data(epsg, bbox, baseline_layer)
+            rcp26_median = get_geoserver_data(epsg, bbox, rcp26_layer)
+            rcp45_median = get_geoserver_data(epsg, bbox, rcp45_layer)
+            rcp85_median = get_geoserver_data(epsg, bbox, rcp85_layer)
 
             hazard_characterization["baseline"] = compare_thresholds(hazard["baseline_thresholds"], baseline_median)
             hazard_characterization["earlyResponseScenario"] = compare_thresholds(hazard["future_thresholds"], get_value(baseline_median, rcp26_median))
@@ -87,9 +90,11 @@ def get_geoserver_data(bbox, identifier):
 
 def get_exposure_characterization(request):
     output = []
+    epsg = request['epsg'].upper()
+    bbox = request['bbox']
     for vulclass in request['data']:
         out_data = vulclass
-        layer_data = get_geoserver_data(request['bbox'], vulclass['layer'])
+        layer_data = get_geoserver_data(epsg, bbox, vulclass['layer'])
         out_data['values'] = str(layer_data)
         out_data.pop('layer')
         output.append(out_data)
