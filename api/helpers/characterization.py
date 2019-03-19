@@ -15,7 +15,8 @@ WCSURL = 'https://clarity.meteogrid.com/geoserver/wcs'
 
 def get_value(baseline, future):
     # 100 x [(future layer) - (baseline layer)] / (baseline layer)
-    value = 100 * (future - baseline) / baseline
+    #value = 100 * (future - baseline) / baseline
+    value = future - baseline
     return value
 
 def compare_thresholds(thresholds, value):
@@ -39,9 +40,13 @@ def get_hazard_characterization(request):
             hazard_characterization = {
             "hazard": hazard["hazard"],
             "baseline": "",
+            "baseline_value": "",
             "earlyResponseScenario": "",
+            "earlyResponseScenario_value": "",
             "effectiveMeasuresScenario": "",
+            "effectiveMeasuresScenario_value": "",
             "businessAsUsualScenario": "",
+            "businessAsUsualScenario_value": "",
             "period": ""
             }   
 
@@ -66,10 +71,17 @@ def get_hazard_characterization(request):
                 rcp26_median = get_median(rcp26_data, rcp26_nodata)
                 rcp45_median = get_median(rcp45_data, rcp45_nodata)
                 rcp85_median = get_median(rcp85_data, rcp85_nodata)
+                rcp26_value = get_value(baseline_median, rcp26_median)
+                rcp45_value = get_value(baseline_median, rcp45_median)
+                rcp85_value = get_value(baseline_median, rcp85_median)
                 hazard_characterization["baseline"] = compare_thresholds(hazard["baseline_thresholds"], baseline_median)
-                hazard_characterization["earlyResponseScenario"] = compare_thresholds(hazard["future_thresholds"], get_value(baseline_median, rcp26_median))
-                hazard_characterization["effectiveMeasuresScenario"] = compare_thresholds(hazard["future_thresholds"], get_value(baseline_median, rcp45_median))
-                hazard_characterization["businessAsUsualScenario"] = compare_thresholds(hazard["future_thresholds"], get_value(baseline_median, rcp85_median))
+                hazard_characterization["baseline_value"] = baseline_median
+                hazard_characterization["earlyResponseScenario"] = compare_thresholds(hazard["future_thresholds"], rcp26_value)
+                hazard_characterization["earlyResponseScenario_value"] = rcp26_value
+                hazard_characterization["effectiveMeasuresScenario"] = compare_thresholds(hazard["future_thresholds"], rcp45_value)
+                hazard_characterization["effectiveMeasuresScenario_value"] = rcp45_value
+                hazard_characterization["businessAsUsualScenario"] = compare_thresholds(hazard["future_thresholds"], rcp85_value)
+                hazard_characterization["businessAsUsualScenario_value"] = rcp85_value
             
                 output.append(hazard_characterization)
 
@@ -82,8 +94,9 @@ def get_exposure_characterization(request):
     bbox = request['bbox']
     for vulclass in request['data']:
         out_data = vulclass
-        layer_data = get_geoserver_data(epsg, bbox, vulclass['layer'])
-        out_data['values'] = str(layer_data)
+        layer_data, layer_nodata = get_geoserver_data(epsg, bbox, vulclass['layer'])
+        value = get_median(layer_data, layer_nodata)
+        out_data['values'] = str(value)
         out_data.pop('layer')
         output.append(out_data)
     
