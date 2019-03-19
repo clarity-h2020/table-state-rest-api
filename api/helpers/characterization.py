@@ -8,7 +8,8 @@ WCSURL = 'https://clarity.meteogrid.com/geoserver/wcs'
 
 def get_value(baseline, future):
     # 100 x [(future layer) - (baseline layer)] / (baseline layer)
-    value = 100 * (future - baseline) / baseline
+    #value = 100 * (future - baseline) / baseline
+    value = future - baseline
     return value
 
 def compare_thresholds(thresholds, value):
@@ -32,9 +33,13 @@ def get_hazard_characterization(request):
             hazard_characterization = {
             "hazard": hazard["hazard"],
             "baseline": "",
+            "baseline_value": "",
             "earlyResponseScenario": "",
+            "earlyResponseScenario_value": "",
             "effectiveMeasuresScenario": "",
+            "effectiveMeasuresScenario_value": "",
             "businessAsUsualScenario": "",
+            "businessAsUsualScenario_value": "",
             "period": ""
             }   
 
@@ -50,10 +55,13 @@ def get_hazard_characterization(request):
             rcp85_median = get_geoserver_data(request['bbox'], rcp85_layer)
 
             hazard_characterization["baseline"] = compare_thresholds(hazard["baseline_thresholds"], baseline_median)
+            hazard_characterization["baseline_value"] = baseline_median
             hazard_characterization["earlyResponseScenario"] = compare_thresholds(hazard["future_thresholds"], get_value(baseline_median, rcp26_median))
+            hazard_characterization["earlyResponseScenario_value"] = get_value(baseline_median, rcp26_median)
             hazard_characterization["effectiveMeasuresScenario"] = compare_thresholds(hazard["future_thresholds"], get_value(baseline_median, rcp45_median))
+            hazard_characterization["effectiveMeasuresScenario_value"] = get_value(baseline_median, rcp45_median)
             hazard_characterization["businessAsUsualScenario"] = compare_thresholds(hazard["future_thresholds"], get_value(baseline_median, rcp85_median))
-        
+            hazard_characterization["businessAsUsualScenario_value"] = get_value(baseline_median, rcp85_median)
             output.append(hazard_characterization)
 
         print(output)
