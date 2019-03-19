@@ -55,17 +55,17 @@ def get_hazard_characterization(request):
             bbox = request['bbox']
 
             try:
-                baseline_data = get_geoserver_data(epsg, bbox, baseline_layer)
-                rcp26_data = get_geoserver_data(epsg, bbox, rcp26_layer)
-                rcp45_data = get_geoserver_data(epsg, bbox, rcp45_layer)
-                rcp85_data = get_geoserver_data(epsg, bbox, rcp85_layer)
+                baseline_data, baseline_nodata = get_geoserver_data(epsg, bbox, baseline_layer)
+                rcp26_data, rcp26_nodata = get_geoserver_data(epsg, bbox, rcp26_layer)
+                rcp45_data, rcp45_nodata = get_geoserver_data(epsg, bbox, rcp45_layer)
+                rcp85_data, rcp85_nodata = get_geoserver_data(epsg, bbox, rcp85_layer)
             except:
                 raise
             else:
-                baseline_median = get_median(baseline_data)
-                rcp26_median = get_median(rcp26_data)
-                rcp45_median = get_median(rcp45_data)
-                rcp85_median = get_median(rcp85_data)
+                baseline_median = get_median(baseline_data, baseline_nodata)
+                rcp26_median = get_median(rcp26_data, rcp26_nodata)
+                rcp45_median = get_median(rcp45_data, rcp45_nodata)
+                rcp85_median = get_median(rcp85_data, rcp85_nodata)
                 hazard_characterization["baseline"] = compare_thresholds(hazard["baseline_thresholds"], baseline_median)
                 hazard_characterization["earlyResponseScenario"] = compare_thresholds(hazard["future_thresholds"], get_value(baseline_median, rcp26_median))
                 hazard_characterization["effectiveMeasuresScenario"] = compare_thresholds(hazard["future_thresholds"], get_value(baseline_median, rcp45_median))
@@ -103,6 +103,8 @@ def get_geoserver_data(epsg, bbox, identifier):
                 # For some reason bbox parameter does not work
         owslib_log.debug(response.geturl())
     except Exception as e:
+        # This exception handling should change but OWSlib for WCS 2.0.1 does not seem to 
+        # handle returned error messages from geoserver OK
         owslib_log.exception('Something went wrong getting the requested coverage: %s', e)
         raise GeoserverError(epsg, bbox, identifier)
 
@@ -115,12 +117,12 @@ def get_geoserver_data(epsg, bbox, identifier):
         nodata = raster.GetRasterBand(1).GetNoDataValue()
         data = raster.GetRasterBand(1).ReadAsArray().astype('float')
         tf.close()
-        return data
+        return data, nodata
     except Exception as e:
         owslib_log.exception('Problem encountered processing Coverage: %s', e)
         raise 
     
-def get_median(data):
+def get_median(data, nodata):
     median = np.median(data[data != nodata])
     print('median', median)
     return median
