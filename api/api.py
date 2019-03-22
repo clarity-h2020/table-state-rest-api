@@ -49,6 +49,11 @@ def process_ee_request():
         root.warning('Received the wrong type in an Exposure request: %s', request.json["type"])
         return make_response(jsonify({'result': 'Wrong type request'}), 201)    
     
+@app.errorhandler(404)
+def not_found(error):
+    resp = make_response(jsonify({'message': 'Not found. The requested URL was not found on the server.', 'code': 404}), 404)
+    #resp.headers['X-Something'] = 'A value'
+    return resp
 
 @app.route('/', methods=['GET'])
 def home():

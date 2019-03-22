@@ -84,8 +84,6 @@ def get_hazard_characterization(request):
                 hazard_characterization["businessAsUsualScenario_value"] = rcp85_value
             
                 output.append(hazard_characterization)
-
-        print(output)
     return output
 
 def get_exposure_characterization(request):
@@ -99,12 +97,9 @@ def get_exposure_characterization(request):
         out_data['values'] = str(value)
         out_data.pop('layer')
         output.append(out_data)
-    
-    print(output)
     return output
 
 def get_geoserver_data(epsg, bbox, identifier):
-    print(bbox, identifier)
     wcs = WebCoverageService(url=WCSURL, version='2.0.1')
 
     try:
@@ -137,5 +132,4 @@ def get_geoserver_data(epsg, bbox, identifier):
     
 def get_median(data, nodata):
     median = np.median(data[data != nodata])
-    print('median', median)
     return median
